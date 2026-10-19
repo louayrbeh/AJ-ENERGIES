@@ -1,6 +1,8 @@
 # AJ ENERGIES — site vitrine français / arabe
 
-Site vitrine en HTML/CSS/JavaScript natifs. Le générateur Node produit un site statique multipage français/arabe. Ce dépôt contient les sources ; aucun workflow de déploiement ni activation de GitHub Pages n’est inclus.
+Site vitrine en HTML/CSS/JavaScript natifs. Le générateur Node produit un site statique multipage français/arabe. Le workflow `.github/workflows/pages.yml` construit et publie uniquement `dist/` sur GitHub Pages après chaque push sur `main`.
+
+Adresse attribuée par GitHub Pages : **https://louayrbeh.github.io/AJ-ENERGIES/**. Procédure, contrôles et limites : [publication GitHub Pages](docs/GITHUB_PAGES.md).
 
 ## Lancer
 
@@ -61,7 +63,7 @@ Les tests navigateur demandent Playwright et Chrome ; ils utilisent le runtime p
 
 `OUTPUT_DIR` permet de vérifier un export dans un sous-dossier de `test-results/`. Ne pas l'utiliser pour changer le dossier de livraison `dist/`. Les résultats réellement obtenus sont dans [docs/TESTS.md](docs/TESTS.md).
 
-## Production — à préparer sans publier
+## Configuration du build de production
 
 Sans origine définitive, le build reste `noindex, nofollow`, `robots.txt` interdit l'indexation, le sitemap est vide et aucune canonique fictive n'est émise. Les alternates de langues sont locaux. Pour un domaine réel, définir les paramètres **avant** reconstruction :
 
@@ -75,16 +77,11 @@ node scripts/check.mjs
 
 L'origine HTTPS ne doit pas contenir de chemin ni slash final. `BASE_PATH` est séparé, sans slash final. Le build génère alors les canoniques, Open Graph absolu, alternates FR/AR/x-default et sitemap multilingue. **Configurer une origine de production lève le noindex** pour les pages publiques ; ne pas utiliser cette option par erreur en préproduction. Aucun `.env` n'est lu automatiquement.
 
-Procédure ultérieure :
+Pour GitHub Pages, aucune variable locale n’est nécessaire : le workflow récupère l’origine et le sous-chemin réellement attribués grâce à `actions/configure-pages`, puis construit les canoniques, métadonnées sociales, alternates et sitemap correspondants. Le lancement local ci-dessus conserve ses URL à la racine et le mode préproduction.
 
-1. Compléter [les informations manquantes](docs/INFORMATIONS_A_COMPLETER.md), valider les textes FR/AR, la confidentialité, les coordonnées et les droits des médias.
-2. Choisir un hébergeur statique HTTPS avec index de répertoires et vraie 404 personnalisée. Le transfert porte uniquement sur `dist/`, pas les sources, docs ou tests.
-3. Sur Netlify/Cloudflare Pages, faire interpréter `_headers` et vérifier son application effective. Sur nginx/Apache/autre, traduire ces règles dans la configuration serveur ; aucun fallback SPA vers `index.html`.
-4. Exemple nginx à adapter : `try_files $uri $uri/ =404;` et `error_page 404 /404.html;`. Prévoir si souhaité une règle de 404 arabe sous `/ar/`. Apache : `DirectoryIndex index.html` et `ErrorDocument 404 /404.html`, à préfixer en cas de sous-chemin.
-5. Appliquer les en-têtes CSP, `nosniff`, politique de référent et permissions. HSTS seulement après validation HTTPS. Définir revalidation HTML/CSS/JS et cache des images ; les noms de fichiers ne portent pas de hash et le serveur local utilise `no-store`.
-6. Après autorisation explicite de publication seulement : vérifier HTTPS, liens profonds FR/AR, statuts 404, en-têtes, sitemap, langue et liens externes sur appareils réels. Aucun test d'envoi réel n'est autorisé par le simple lancement des tests locaux.
+GitHub Pages sert des fichiers statiques et n’interprète pas `_headers` : les en-têtes générés pour d’autres hébergeurs ne sont pas appliqués ici. La 404 globale utilise `404.html` en français ; les pages `/ar/404/` restent disponibles, sans réécriture serveur par langue. Voir [les limites de l’hébergement](docs/GITHUB_PAGES.md).
 
-Le livrable est utilisable localement ; domaine, hébergement, confidentialité finale, EmailJS et position exacte restent à compléter selon les besoins. Aucun calculateur, compte utilisateur, faux témoignage ou faux projet n'est inclus.
+EmailJS et la position exacte de l’entreprise restent à configurer si nécessaire. Les parcours de préparation `mailto:` et WhatsApp restent disponibles. Aucun calculateur, compte utilisateur, faux témoignage ou faux projet n'est inclus.
 
 ## Refonte visuelle
 
