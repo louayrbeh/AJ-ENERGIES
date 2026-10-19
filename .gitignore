@@ -1,0 +1,32 @@
+node_modules/
+test-results/
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Export régénéré à partir des sources ; aucun déploiement automatique.
+dist/
+
+# Captures de vérification et fichiers temporaires locaux.
+docs/captures-*/
+*.log
+*.tmp
+*.temp
+*.bak
+*.old
+*.orig
+*.rej
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Secrets et identifiants privés : ne jamais les versionner.
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa
+id_ed25519

@@ -1,0 +1,16 @@
+{
+  "name": "aj-energies-website",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "start": "node scripts/serve.mjs",
+    "test": "node --test tests/email.test.mjs tests/message-channels.test.mjs",
+    "check": "node scripts/check.mjs",
+    "test:browser": "node scripts/browser-tests.mjs",
+    "test:design": "node scripts/design-tests.mjs",
+    "test:contact-pumping": "node scripts/contact-pumping-tests.mjs"
+  }
+}
